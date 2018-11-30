@@ -1,24 +1,34 @@
 package jus.proc.prodcons.v1;
 
-public class ProdConsBuffer {
+public class ProdConsBuffer implements IProdConsBuffer{
 	
-	public class Message {
-		String s;
+	Message message[];
+	int head;
+	int tail;
+	int taille;
+	
+	public ProdConsBuffer(int n) {
+		message = new Message[n];
+		head = 0;
+		tail = 0;
+		taille = n;
 	}
 	
-	public interface IProdConsBuffer {
-	
-	/**
-	* put m in the prodcons buffer
-	**/
-	public void put(Message m) throws InterruptedException;
-	/**
-	* retrieve a message from the prodcons buffer, following a fifo order
-	**/
-	public Message get() throws InterruptedException;
-	/**
-	* returns the number of messages currently available in the prodcons buffer
-	**/
-	public int nmsg();
+	public void put(Message m) throws InterruptedException {
+		
+		
+		
+		
 	}
+	
+	public Message get() throws InterruptedException {
+		return null;
+		
+	}
+	
+	public int nmsg() {
+		return 0;
+		
+	}
+
 }
