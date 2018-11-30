@@ -1,1 +1,0 @@
-package jus.proc.prodcons.interface;
