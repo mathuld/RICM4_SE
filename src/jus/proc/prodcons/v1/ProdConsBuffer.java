@@ -1,34 +1,43 @@
 package jus.proc.prodcons.v1;
 
+import java.util.concurrent.locks.Lock;
+
 public class ProdConsBuffer implements IProdConsBuffer{
 	
-	Message message[];
+	Message messages[];
 	int head;
 	int tail;
 	int taille;
+	Lock l;
 	
 	public ProdConsBuffer(int n) {
-		message = new Message[n];
+		messages = new Message[n];
 		head = 0;
 		tail = 0;
 		taille = n;
+		l = new Lock();
 	}
 	
 	public void put(Message m) throws InterruptedException {
+		l.lock();
+	
 		
-		
-		
-		
+		l.unlock();
 	}
 	
 	public Message get() throws InterruptedException {
+		l.lock();
+
+
+		l.unlock();
 		return null;
-		
 	}
 	
 	public int nmsg() {
-		return 0;
+		l.lock();
 		
+		l.unlock();
+		return taille;
 	}
 
 }
