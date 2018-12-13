@@ -1,4 +1,4 @@
-package jus.proc.prodcons.v1;
+package jus.proc.prodcons.v2;
 
 public class Consumer implements Runnable {
 
