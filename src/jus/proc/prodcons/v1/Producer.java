@@ -15,7 +15,9 @@ public class Producer implements Runnable {
 	@Override
 	public void run() {
 		
-		int nbmsg = (int) Math.random() * avg * 2;
+		int nbmsg = (int) (Math.random() * avg * 2);
+		
+		System.out.println("Le prod " + Thread.currentThread().getId()+" produit "+ nbmsg);
 		
 		for(int i=0; i<nbmsg; i++) {
 			ProdConsBuffer.Message m = new ProdConsBuffer.Message("Producer : " + Thread.currentThread().getId() + " Message : " + i);

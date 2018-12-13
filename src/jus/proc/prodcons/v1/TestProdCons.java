@@ -6,10 +6,10 @@ import java.util.Properties;
 
 public class TestProdCons {
 
-	public void main() throws InvalidPropertiesFormatException, IOException {
+	public static void main(String argv[]) throws InvalidPropertiesFormatException, IOException {
 
 		Properties properties = new Properties();
-		properties.loadFromXML(TestProdCons.class.getClassLoader().getResourceAsStream("options.xml"));
+		properties.loadFromXML(TestProdCons.class.getClassLoader().getResourceAsStream("jus/proc/prodcons/options.xml"));
 
 		int nbP = Integer.parseInt(properties.getProperty("nbP"));
 		int nbC = Integer.parseInt(properties.getProperty("nbC"));
@@ -27,7 +27,7 @@ public class TestProdCons {
 		}
 		
 		//Création de consommateurs
-		Consumer consumer[] = new Consumer[nbP];
+		Consumer consumer[] = new Consumer[nbC];
 		for(int i=0; i<nbC; i++) {
 			consumer[i] = new Consumer(buffer, ConsTime);
 		}
@@ -56,12 +56,12 @@ public class TestProdCons {
 		
 		if(indiceC == nbC) {
 			for(int i=indiceP; i<nbP; i++) {
-				Thread t = new Thread(consumer[i]);
+				Thread t = new Thread(producer[i]);
 				t.start();
 			}
 		}else if(indiceP == nbP) {
 			for(int i=indiceC; i<nbC; i++) {
-				Thread t = new Thread(producer[i]);
+				Thread t = new Thread(consumer[i]);
 				t.start();
 			}
 		}

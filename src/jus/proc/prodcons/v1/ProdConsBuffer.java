@@ -23,28 +23,28 @@ public class ProdConsBuffer implements IProdConsBuffer{
 		return (head+1)%taille==tail%taille;
 	}
 	
-	public void put(Message m) throws InterruptedException {
-		while(l.tryLock() || estplein()){
+	public synchronized void put(Message m) throws InterruptedException {
+		/*while(l.tryLock() || estplein()){
 			try{wait();}
 			catch(InterruptedException e){continue;}
 		}
-		l.lock();
+		l.lock();*/
 		messages[tail] = m;
 		tail = (tail + 1)%taille;
-		l.unlock();
+		//l.unlock();
 		notifyAll();
 	}
 	
-	public Message get() throws InterruptedException {
-		while(l.tryLock()){
+	public synchronized Message get() throws InterruptedException {
+		/*while(l.tryLock()){
 			try{wait();}
 			catch(InterruptedException e){continue;}
 		}
-		l.lock();
+		l.lock();*/
 		Message m = messages[head];
 		messages[head] = null;
 		head = (head +1)%taille;
-		l.unlock();
+		//l.unlock();
 		notifyAll();
 		return m;
 	}

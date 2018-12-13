@@ -20,7 +20,9 @@ public class Consumer implements Runnable {
 				m = buffer.get();
 			} catch (InterruptedException e) {}
 			
-			System.out.println(m.s);
+			if(m!=null) {
+				System.out.println(m.s);
+			}
 		}
 	}
 }
