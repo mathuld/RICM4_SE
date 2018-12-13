@@ -4,6 +4,9 @@ public interface IProdConsBuffer {
 	
 	public class Message{
 		String s;
+		public Message (String s) {
+			this.s = s;
+		}
 	}
 
 	/**

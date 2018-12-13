@@ -20,11 +20,11 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	}
 
 	public boolean estplein(){
-		return head==tail;
+		return (head+1)%taille==tail%taille;
 	}
 	
 	public void put(Message m) throws InterruptedException {
-		while(l.tryLock()&&!estplein()){
+		while(l.tryLock() || estplein()){
 			try{wait();}
 			catch(InterruptedException e){continue;}
 		}
@@ -32,6 +32,7 @@ public class ProdConsBuffer implements IProdConsBuffer{
 		messages[tail] = m;
 		tail = (tail + 1)%taille;
 		l.unlock();
+		notifyAll();
 	}
 	
 	public Message get() throws InterruptedException {
@@ -41,8 +42,10 @@ public class ProdConsBuffer implements IProdConsBuffer{
 		}
 		l.lock();
 		Message m = messages[head];
+		messages[head] = null;
 		head = (head +1)%taille;
 		l.unlock();
+		notifyAll();
 		return m;
 	}
 	
@@ -53,8 +56,16 @@ public class ProdConsBuffer implements IProdConsBuffer{
 		}
 		l.lock();
 		
+		//On compte le nombre de message
+		int cmpt = 0;
+		for(int i=0; i<taille; i++) {
+			if(messages[i] != null) {
+				cmpt++;
+			}
+		}
 		l.unlock();
-		return taille;
+		notifyAll();
+		return cmpt;
 	}
 
 }
