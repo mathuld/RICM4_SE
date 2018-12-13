@@ -1,6 +1,7 @@
 package jus.proc.prodcons.v1;
 
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ProdConsBuffer implements IProdConsBuffer{
 	
@@ -15,7 +16,7 @@ public class ProdConsBuffer implements IProdConsBuffer{
 		head = 0;
 		tail = 0;
 		taille = n;
-		l = new Lock();
+		l = new ReentrantLock();
 	}
 
 	public boolean estplein(){
