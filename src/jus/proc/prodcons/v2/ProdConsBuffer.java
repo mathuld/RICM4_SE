@@ -24,26 +24,28 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	}
 	
 	public synchronized void put(Message m) throws InterruptedException {
+		while(estplein()){
+			wait();
+		}
 		s.acquire();
 		messages[tail] = m;
 		tail = (tail + 1)%taille;
 		s.release();
-		notifyAll();
 	}
 	
 	public synchronized Message get() throws InterruptedException {
+		while(nmsg()==0){
+			wait();
+		}
 		s.acquire();
 		Message m = messages[head];
 		messages[head] = null;
 		head = (head +1)%taille;
 		s.release();
-		notifyAll();
 		return m;
 	}
 	
 	public int nmsg() {
-
-		
 		//On compte le nombre de message
 		int cmpt = 0;
 		for(int i=0; i<taille; i++) {
@@ -51,8 +53,6 @@ public class ProdConsBuffer implements IProdConsBuffer{
 				cmpt++;
 			}
 		}
-
-		notifyAll();
 		return cmpt;
 	}
 
