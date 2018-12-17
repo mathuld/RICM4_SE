@@ -11,14 +11,16 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	int taille;
 	Semaphore notFull;
 	Semaphore notEmpty;
-	Semaphore s;
+	Semaphore in;
+	Semaphore out;
 	
 	public ProdConsBuffer(int n) {
 		messages = new Message[n];
 		head = 0;
 		tail = 0;
 		taille = n;
-		s = new Semaphore(1);
+		in = new Semaphore(1);
+		out = new Semaphore(1);
 		notFull = new Semaphore(n);
 		notEmpty = new Semaphore(0);
 	}
@@ -30,21 +32,21 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	public void put(Message m) throws InterruptedException {
 		System.out.println("Je suis " + Thread.currentThread().getId()+ " et je produis");
 		notFull.acquire();
-		s.acquire();
+		in.acquire();
 		messages[tail] = m;
 		tail = (tail + 1)%taille;
-		s.release();
+		in.release();
 		notEmpty.release();
 	}
 	
 	public Message get() throws InterruptedException {
 		System.out.println("Je suis " + Thread.currentThread().getId()+ " et je consomme");
 		notEmpty.acquire();
-		s.acquire();
+		out.acquire();
 		Message m = messages[head];
 		messages[head] = null;
 		head = (head +1)%taille;
-		s.release();
+		out.release();
 		return m;
 	}
 	

@@ -4,10 +4,10 @@ public interface IProdConsBuffer {
 	
 	public class Message{
 		String s;
-		int N;
+		int n;
 		public Message (String s,int n) {
 			this.s = s;
-			N = n;
+			this.n = n;
 		}
 	}
 
