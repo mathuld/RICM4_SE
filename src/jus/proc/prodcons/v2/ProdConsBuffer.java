@@ -9,6 +9,8 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	int head;
 	int tail;
 	int taille;
+	Semaphore notFull;
+	Semaphore notEmpty;
 	Semaphore s;
 	
 	public ProdConsBuffer(int n) {
@@ -17,28 +19,27 @@ public class ProdConsBuffer implements IProdConsBuffer{
 		tail = 0;
 		taille = n;
 		s = new Semaphore(1);
+		notFull = new Semaphore(n);
+		notEmpty = new Semaphore(0);
 	}
 
 	public boolean estplein(){
 		return taille == nmsg();
 	}
 	
-	public synchronized void put(Message m) throws InterruptedException {
-		System.out.println("Je produis...");
-		while(estplein()){
-			wait();
-		}
+	public void put(Message m) throws InterruptedException {
+		System.out.println("Je suis " + Thread.currentThread().getId()+ " et je produis");
+		notFull.acquire();
 		s.acquire();
 		messages[tail] = m;
 		tail = (tail + 1)%taille;
 		s.release();
+		notEmpty.release();
 	}
 	
-	public synchronized Message get() throws InterruptedException {
-		System.out.println("Je consomme...");
-		while(nmsg()==0){
-			wait();
-		}
+	public Message get() throws InterruptedException {
+		System.out.println("Je suis " + Thread.currentThread().getId()+ " et je consomme");
+		notEmpty.acquire();
 		s.acquire();
 		Message m = messages[head];
 		messages[head] = null;
@@ -49,8 +50,7 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	
 	public int nmsg() {
 		//On compte le nombre de message
-		
-		return (tail - head)%taille;
+		return (tail - head)%taille +1;
 	}
 
 }
