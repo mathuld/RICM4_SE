@@ -16,7 +16,7 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	}
 
 	public boolean estplein(){
-		return (head+1)%taille==tail%taille;
+		return taille == nmsg();
 	}
 	
 	public synchronized void put(Message m) throws InterruptedException {
@@ -29,13 +29,12 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	}
 	
 	public synchronized Message get() throws InterruptedException {
-		while(nmsg==0){
+		while(nmsg()==0){
 			wait();
 		}
 		Message m = messages[head];
 		messages[head] = null;
 		head = (head +1)%taille;
-		//l.unlock();
 		notifyAll();
 		return m;
 	}

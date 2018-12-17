@@ -20,10 +20,11 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	}
 
 	public boolean estplein(){
-		return (head+1)%taille==tail%taille;
+		return taille == nmsg();
 	}
 	
 	public synchronized void put(Message m) throws InterruptedException {
+		System.out.println("Je produis...");
 		while(estplein()){
 			wait();
 		}
@@ -34,6 +35,7 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	}
 	
 	public synchronized Message get() throws InterruptedException {
+		System.out.println("Je consomme...");
 		while(nmsg()==0){
 			wait();
 		}
@@ -47,13 +49,8 @@ public class ProdConsBuffer implements IProdConsBuffer{
 	
 	public int nmsg() {
 		//On compte le nombre de message
-		int cmpt = 0;
-		for(int i=0; i<taille; i++) {
-			if(messages[i] != null) {
-				cmpt++;
-			}
-		}
-		return cmpt;
+		
+		return (tail - head)%taille;
 	}
 
 }

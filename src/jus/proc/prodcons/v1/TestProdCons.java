@@ -5,8 +5,9 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 public class TestProdCons {
+	static int nbmort = 0;
 
-	public static void main(String argv[]) throws InvalidPropertiesFormatException, IOException {
+	public static void main(String[] args) throws InvalidPropertiesFormatException, IOException {
 
 		Properties properties = new Properties();
 		properties.loadFromXML(TestProdCons.class.getClassLoader().getResourceAsStream("jus/proc/prodcons/options.xml"));
@@ -23,7 +24,7 @@ public class TestProdCons {
 		//Creation des producteurs
 		Producer producer[] = new Producer[nbP];
 		for(int i=0; i<nbP; i++) {
-			producer[i] = new Producer(buffer, Mavg, ProdTime);
+			producer[i] = new Producer(buffer, Mavg, ProdTime,nbmort);
 		}
 		
 		//Création de consommateurs
@@ -65,5 +66,7 @@ public class TestProdCons {
 				t.start();
 			}
 		}
+		
+		
 	}
 }

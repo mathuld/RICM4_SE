@@ -5,11 +5,13 @@ public class Producer implements Runnable {
 	ProdConsBuffer buffer;
 	int avg;
 	int time;
+	static int nbdead;
 	
-	public Producer (ProdConsBuffer b, int Mavg, int ProdTime) {
+	public Producer (ProdConsBuffer b, int Mavg, int ProdTime,int dead) {
 		buffer = b;
 		avg = Mavg;
 		time = ProdTime;
+		nbdead = dead;
 	}
 
 	@Override
@@ -25,6 +27,10 @@ public class Producer implements Runnable {
 				Thread.sleep(time);
 				buffer.put(m);
 			} catch (InterruptedException e) {}
+		}
+		
+		synchronized(this) {
+			nbdead = nbdead++;
 		}
 	}
 }
