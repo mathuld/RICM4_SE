@@ -73,6 +73,8 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		head = (head + 1) % taille;
 		/* On rend la ressource de out pour que d'autre puissent lire */
 		out.release();
+		/*On rend une ressource à notFull car on a une case de plus de libre*/
+		notFull.release();
 		return m;
 	}
 
