@@ -1,13 +1,15 @@
 package jus.proc.prodcons.v3;
 
 public interface IProdConsBuffer {
-	
-	public class Message{
-		String s;
-		int n;
-		public Message (String s,int n) {
-			this.s = s;
-			this.n = n;
+
+	/* On modifie le classe Message afin d'avoir un nombre d'exemplaire */
+	public class Message {
+		String message;
+		int exemplaire;
+
+		public Message(String s, int n) {
+			this.message = s;
+			this.exemplaire = n;
 		}
 	}
 

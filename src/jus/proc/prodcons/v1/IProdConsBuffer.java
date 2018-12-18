@@ -1,11 +1,13 @@
 package jus.proc.prodcons.v1;
 
 public interface IProdConsBuffer {
-	
-	public class Message{
-		String s;
-		public Message (String s) {
-			this.s = s;
+
+	/* Les messages qu'on produit et consomme sont des chaînes de caractères */
+	public class Message {
+		String message;
+
+		public Message(String s) {
+			this.message = s;
 		}
 	}
 
